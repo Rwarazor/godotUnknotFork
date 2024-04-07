@@ -103,7 +103,7 @@ bool UnknoterImpl::can_player_shift_edges(int player, int x, int y, int select_o
   }
   int sign = (select_offset > 0) - (select_offset < 0);
   int sign_perpendicular = (perpendicular_offset > 0) - (perpendicular_offset < 0);
-  if (sign != 0) {
+  if (select_offset != 0) {
     for (int i = sign; i != select_offset + sign; i += sign) {
       int x1 = x;
       int y1 = y;
@@ -117,16 +117,51 @@ bool UnknoterImpl::can_player_shift_edges(int player, int x, int y, int select_o
       }
     }
   }
-  if (sign_perpendicular != 0) {
-    for (int i = sign_perpendicular; i != perpendicular_offset + sign_perpendicular; i += sign_perpendicular) {
+  if (perpendicular_offset != 0) {
+    int i = 0;
+    do {
       int x1 = x;
       int y1 = y;
       if (is_edge_alt(x, y)) {
-        y1 += 2 * i;
-      } else {
         x1 += 2 * i;
+        y1 += 2 * perpendicular_offset;
+      } else {
+        x1 += 2 * perpendicular_offset;
+        y1 += 2 * i;
       }
-      if (get_edge_player(x1, y1) != player) {
+      if (get_edge_player(x1, y1) != -1) {
+        return false;
+      }
+      i += sign;
+    }
+    while (i != select_offset + sign);
+    for (int j = sign_perpendicular; j != perpendicular_offset + sign_perpendicular; j += sign_perpendicular) {
+      int x1 = x;
+      int y1 = y;
+      int x2, y2;
+      if (is_edge_alt(x, y)) {
+        if (sign > 0) {
+          x1 -= 1;
+          y1 += j;
+          x2 = x1 + 2 * (select_offset + 1);
+        } else {
+          x2 = x + 1;
+          x1 = x2 + 2 * (select_offset + 1);
+        }
+        y1 += j;
+        y2 = y1;
+      } else {
+        if (sign > 0) {
+          y1 -= 1;
+          y2 = y1 + 2 * (select_offset + 1);
+        } else {
+          y2 = y + 1;
+          y1 = y2 + 2 * (select_offset + 1);
+        }
+        x1 += j;
+        x2 = x1;
+      }
+      if ((get_edge_player(x1, y1) != -1 && get_edge_player(x1, y1) != player) || (get_edge_player(x2, y2) != -1 && get_edge_player(x2, y2) != player)) {
         return false;
       }
     }
@@ -171,4 +206,3 @@ void UnknoterImpl::shift_edges(int x, int y, int select_offset, int perpendicula
     }
   }
 }
-
