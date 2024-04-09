@@ -52,6 +52,9 @@ void UnknoterImpl::_set_field(const std::vector<std::vector<int>>& field) {
   coords_to_player = field;
 }
 
+std::vector<std::vector<int>> UnknoterImpl::_get_field() {
+  return coords_to_player;
+}
 
 int UnknoterImpl::get_players() {
   return players;

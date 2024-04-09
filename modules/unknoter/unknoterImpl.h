@@ -29,6 +29,7 @@ public:
   void shift_edges(int x, int y, int select_offset, int perpendicular_offset);
 
   void _set_field(const std::vector<std::vector<int>>& field);
+  std::vector<std::vector<int>> _get_field();
 
   Error save(const String &p_path);
   Error load(const String &p_path);
