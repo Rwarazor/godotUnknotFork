@@ -161,25 +161,30 @@ bool UnknoterImpl::can_player_shift_edges(int player, int x, int y, int select_o
       int x1, y1, x2, y2;
       if (is_edge_alt(x, y)) {
         x1 = x;
+        x2 = x1;
         y1 = y - sign_perpendicular + 2 * j;
         y2 = y1;
         if (sign > 0) {
           x1 -= 1;
           x2 = x1 + 2 * (select_offset + 1);
-        } else {
+        } else if (sign < 0) {
           x2 = x + 1;
           x1 = x2 + 2 * (select_offset + 1);
         }
       } else {
         x1 = x - sign_perpendicular + 2 * j;
         y1 = y;
+        y2 = y1;
         x2 = x1;
         if (sign > 0) {
           y1 -= 1;
           y2 = y1 + 2 * (select_offset + 1);
-        } else {
+        } else if (sign < 0) {
           y2 = y + 1;
           y1 = y2 + 2 * (select_offset + 1);
+        } else {
+          y1 -= 1;
+          y2 += 1;
         }
       }
       if ((get_edge_player(x1, y1) != -1 && get_edge_player(x1, y1) != player) || (get_edge_player(x2, y2) != -1 && get_edge_player(x2, y2) != player)) {
