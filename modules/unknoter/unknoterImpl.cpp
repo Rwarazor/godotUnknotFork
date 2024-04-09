@@ -122,7 +122,9 @@ bool is_edge_alt(int x, int y) {
 }
 
 bool UnknoterImpl::can_player_shift_edges(int player, int x, int y, int select_offset, int perpendicular_offset) {
-  // TODO: implement perpendicular_offset != 0 case
+  auto out_of_bounds = [&](int x1, int y1) {
+    return x1 < 0 || x1 > 2 * width || y1 < 0 || y1 > 2 * width;
+  };
   if (get_edge_player(x, y) != player) {
     return false;
   }
@@ -160,35 +162,9 @@ bool UnknoterImpl::can_player_shift_edges(int player, int x, int y, int select_o
       i += sign;
     }
     while (i != select_offset + sign);
-    if (is_edge_alt(x, y)) {
-      if (sign == 0) {
-        if ((get_edge_player(x - 2, y + 2 * perpendicular_offset) == get_edge_player(x - 1, y + 2 * perpendicular_offset + sign_perpendicular) && get_edge_player(x - 2, y + 2 * perpendicular_offset) != -1)
-        || (get_edge_player(x + 2, y + 2 * perpendicular_offset) == get_edge_player(x + 1, y + 2 * perpendicular_offset + sign_perpendicular) && get_edge_player(x + 2, y + 2 * perpendicular_offset) != -1)) {
-          return false;
-        }
-	    } else {
-        if ((get_edge_player(x - 2 * sign, y + 2 * perpendicular_offset) == get_edge_player(x - sign, y + 2 * perpendicular_offset + sign_perpendicular) && get_edge_player(x - 2 * sign, y + 2 * perpendicular_offset) != -1) 
-         || (get_edge_player(x + 2 * sign + 2 * select_offset, y + 2 * perpendicular_offset) == get_edge_player(x + sign + 2 * select_offset, y + 2 * perpendicular_offset + sign_perpendicular) && get_edge_player(x + 2 * sign + 2 * select_offset, y + 2 * perpendicular_offset) != -1)) {
-          return false;
-        }
-      }
-    } else {
-      if (sign == 0) {
-        if ((get_edge_player(x + 2 * perpendicular_offset, y - 2) == get_edge_player(x + 2 * perpendicular_offset + sign_perpendicular, y - 1) && get_edge_player(x + 2 * perpendicular_offset, y - 2) != -1)
-         || (get_edge_player(x + 2 * perpendicular_offset, y + 2) == get_edge_player(x + 2 * perpendicular_offset + sign_perpendicular, y + 2) && get_edge_player(x + 2 * perpendicular_offset, y + 2) != -1)) {
-          return false;
-        }
-      } else {
-        if ((get_edge_player(x + 2 * perpendicular_offset, y - 2 * sign) == get_edge_player(x + 2 * perpendicular_offset + sign_perpendicular, y - sign) && get_edge_player(x + 2 * perpendicular_offset, y - 2 * sign) != -1)
-         || (get_edge_player(x + 2 * perpendicular_offset, y + 2 * sign + 2 * select_offset) == get_edge_player(x + 2 * perpendicular_offset + sign_perpendicular, y + 2 * sign + 2 * select_offset) && get_edge_player(x + 2 * perpendicular_offset, y + 2 * sign + 2 * select_offset) != -1)) {
-          return false;
-        }
-        if (get_upper_vertex_player(x + 2 * perpendicular_offset, y - sign) != -1 || get_upper_vertex_player(x + 2 * perpendicular_offset, y + sign + 2 * select_offset) != -1) {
-          return false;
-        }
-      }
-    }
-    for (int j = sign_perpendicular; j != perpendicular_offset + sign_perpendicular; j += sign_perpendicular) {
+
+    bool deleting1 = true, deleting2 = true;
+    for (int j = sign_perpendicular; j != perpendicular_offset + 2 * sign_perpendicular; j += sign_perpendicular) {
       int x1, y1, x2, y2;
       if (is_edge_alt(x, y)) {
         x1 = x;
@@ -200,7 +176,7 @@ bool UnknoterImpl::can_player_shift_edges(int player, int x, int y, int select_o
           x2 = x1 + 2 * (select_offset + 1);
         } else if (sign < 0) {
           x2 = x + 1;
-          x1 = x2 + 2 * (select_offset + 1);
+          x1 = x2 + 2 * (select_offset - 1);
         } else {
           x1 -= 1;
           x2 += 1;
@@ -215,14 +191,32 @@ bool UnknoterImpl::can_player_shift_edges(int player, int x, int y, int select_o
           y2 = y1 + 2 * (select_offset + 1);
         } else if (sign < 0) {
           y2 = y + 1;
-          y1 = y2 + 2 * (select_offset + 1);
+          y1 = y2 + 2 * (select_offset - 1);
         } else {
           y1 -= 1;
           y2 += 1;
         }
       }
-      if ((get_edge_player(x1, y1) != -1 && get_edge_player(x1, y1) != player) || (get_edge_player(x2, y2) != -1 && get_edge_player(x2, y2) != player)) {
-        return false;
+      if (out_of_bounds(x1, y1) || out_of_bounds(x2, y2)) {
+        break;
+      }
+      if (deleting1) {
+        if (get_edge_player(x1, y1) == -1) {
+          deleting1 = false;
+        } else if (get_edge_player(x1, y1) != player) {
+          return false;
+        }
+      } else if (get_edge_player(x1, y1) != -1) {
+          return false;
+      }
+      if (deleting2) {
+        if (get_edge_player(x2, y2) == -1) {
+          deleting2 = false;
+        } else if (get_edge_player(x2, y2) != player) {
+          return false;
+        }
+      } else if (get_edge_player(x2, y2) != -1) {
+          return false;
       }
     }
   }
