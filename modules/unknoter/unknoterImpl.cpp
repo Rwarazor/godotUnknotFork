@@ -227,34 +227,65 @@ void UnknoterImpl::flip_vertex(int x, int y) {
 }
 
 void UnknoterImpl::shift_edges(int x, int y, int select_offset, int perpendicular_offset) {
+  if (perpendicular_offset == 0) {
+    return;
+  }
   int sign_select = (select_offset > 0) - (select_offset < 0);
   int sign_perpendicular = (perpendicular_offset > 0) - (perpendicular_offset < 0);
-
-  if (sign_select != 0) {
-    for (int i = sign_select; i != select_offset + sign_select; i += sign_select) {
-      int x1 = x + i * !is_edge_alt(x, y);
-      int y1 = y + i * is_edge_alt(x, y);
-      coords_to_player[x1][y1] = get_edge_player(x, y);
-      if (i != select_offset) {
-        coords_to_player[x - (i - sign_select) * !is_edge_alt(x, y)][y - (i - sign_select) * is_edge_alt(x, y)] = -1;
-      }
-    }
+  auto player = get_edge_player(x, y);
+  if (sign_select == 0) {
+    coords_to_player[x + 2 * perpendicular_offset * !is_edge_alt(x, y)][y + 2 * perpendicular_offset * is_edge_alt(x, y)] = player;
+    coords_to_player[x][y] = -1;
   }
-  if (sign_perpendicular != 0) {
-    for (int i = sign_perpendicular; i != perpendicular_offset + sign_perpendicular; i += sign_perpendicular) {
-      int x1 = x;
-      int y1 = y;
-      if (is_edge_alt(x, y)) {
-        y1 += 2 * i;
+  for (int i = 0; i != select_offset + sign_select; i += sign_select) {
+    int x1 = x;
+    int y1 = y;
+    if (is_edge_alt(x, y)) {
+      x1 += i * 2;
+    } else {
+      y1 += i * 2;
+    }
+    coords_to_player[x1 + 2 * perpendicular_offset * !is_edge_alt(x, y)][y1 + 2 * perpendicular_offset * is_edge_alt(x, y)] = player;
+    coords_to_player[x1][y1] = -1;
+  }
+  for (int i = sign_perpendicular; i != 2 * perpendicular_offset + sign_perpendicular; i += 2 * sign_perpendicular) {
+    if (is_edge_alt(x, y)) {
+      int x1, x2;
+      if (sign_select == 0) {
+        x1 = x - 1;
+        x2 = x + 1;
       } else {
-        x1 += 2 * i;
+        x1 = x - sign_select;
+        x2 = x + 1 + select_offset * 2;
       }
-      coords_to_player[x1][y1] = get_edge_player(x, y);
-      if (i != select_offset) {
-        coords_to_player[x - (i - sign_select) * !is_edge_alt(x, y)][y - (i - sign_select) * is_edge_alt(x, y)] = -1;
+      if (coords_to_player[x1][y + i] == -1) {
+        coords_to_player[x1][y + i] = player;
+      } else {
+        coords_to_player[x1][y + i] = -1;
       }
-      if (i != perpendicular_offset) {
-        coords_to_player[x][y - (i - sign_perpendicular)] = -1;
+      if (coords_to_player[x2][y + i] == -1) {
+        coords_to_player[x2][y + i] = player;
+      } else {
+        coords_to_player[x2][y + i] = -1;
+      }
+    } else {
+      int y1, y2;
+      if (sign_select == 0) {
+        y1 = y - 1;
+        y2 = y + 1;
+      } else {
+        y1 = y - sign_select;
+        y2 = y + 1 + select_offset * 2;
+      }
+      if (coords_to_player[x + i][y1] == -1) {
+        coords_to_player[x + i][y1] = player;
+      } else {
+        coords_to_player[x + i][y1] = -1;
+      }
+      if (coords_to_player[x + i][y2] == -1) {
+        coords_to_player[x + i][y2] = player;
+      } else {
+        coords_to_player[x + i][y2] = -1;
       }
     }
   }
