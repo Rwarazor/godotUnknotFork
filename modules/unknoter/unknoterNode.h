@@ -19,6 +19,12 @@ public:
 
   void reset(int players, int width, int height);
 
+  int get_players();
+  void set_current_player(int player);
+  int get_current_player();
+  int get_width();
+  int get_height();
+
   int get_edge_player(int x, int y);
   int get_upper_vertex_player(int x, int y);
   int get_lower_vertex_player(int x, int y);
@@ -28,4 +34,7 @@ public:
 
   void flip_vertex(int x, int y);
   void shift_edges(int x, int y, int select_offset, int perpendicular_offset);
+
+  Error save(const String &path);
+  Error load(const String &path);
 };

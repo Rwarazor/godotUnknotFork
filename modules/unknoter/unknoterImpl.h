@@ -3,6 +3,8 @@
 #include <vector>
 
 class UnknoterImpl {
+  int players;
+  int current_player;
   int width;
   int height;
   std::vector<std::vector<int>> coords_to_player;
@@ -14,6 +16,9 @@ public:
   int get_upper_vertex_player(int x, int y);
   int get_lower_vertex_player(int x, int y);
 
+  int get_players();
+  void set_current_player(int player);
+  int get_current_player();
   int get_width();
   int get_height();
 
@@ -24,4 +29,7 @@ public:
   void shift_edges(int x, int y, int select_offset, int perpendicular_offset);
 
   void _set_field(const std::vector<std::vector<int>>& field);
+
+  Error save(const String &p_path);
+  Error load(const String &p_path);
 };
