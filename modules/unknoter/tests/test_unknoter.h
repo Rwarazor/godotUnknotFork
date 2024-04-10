@@ -346,27 +346,71 @@ TEST_CASE("[Modules][Unknoter] Test UnknoterImpl behavior big") {
     CHECK_FALSE(unknoter.can_player_shift_edges(1, 17, 0, 3, 10));
     CHECK_FALSE(unknoter.can_player_shift_edges(3, 22, 17, 0, -3));
 
-    // Touch yourself
-    // CHECK_FALSE(unknoter.can_player_shift_edges(0, 11, 34, -4, -4));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(1, 28, 19, 8, -6));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(2, 10, 29, -2, -3));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(2, 6, 7, 3, 10));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(3, 18, 19, 0, 4));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(2, 11, 0, -2, 11));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(2, 8, 29, -1, 14));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(3, 20, 19, 0, 7));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(3, 31, 12, -2, 3));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(0, 21, 34, -8, -6));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(3, 18, 19, 0, 8));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(0, 7, 28, 11, 4));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(3, 18, 31, 0, 6));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(3, 20, 17, 2, -4));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(1, 28, 39, -4, -14));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(0, 33, 34, -14, -7));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(1, 28, 29, -4, -6));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(2, 3, 14, 1, 3));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(3, 18, 19, 0, 11));
-    // CHECK_FALSE(unknoter.can_player_shift_edges(3, 40, 35, -2, -14));
+    // Touch yourself 1
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 11, 34, -4, -4));
+    CHECK_FALSE(unknoter.can_player_shift_edges(1, 28, 19, 8, -6));
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 10, 29, -2, -3));
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 6, 7, 3, 10));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 18, 19, 0, 4));
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 11, 0, -2, 11));
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 8, 29, -1, 14));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 20, 19, 0, 7));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 31, 12, -2, 3));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 21, 34, -8, -6));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 18, 19, 0, 8));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 7, 28, 11, 4));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 18, 31, 0, 6));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 20, 17, 2, -4));
+    CHECK_FALSE(unknoter.can_player_shift_edges(1, 28, 39, -4, -14));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 33, 34, -14, -7));
+    CHECK_FALSE(unknoter.can_player_shift_edges(1, 28, 29, -4, -6));
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 3, 14, 1, 3));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 18, 19, 0, 11));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 40, 35, -2, -14));
+
+    // Touch yourself 2
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 31, 34, -14, -8));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 23, 22, 8, -4));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 3, 34, 14, -7));
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 7, 16, -2, -6));
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 8, 23, 4, 2));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 21, 38, 9, -10));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 31, 34, -14, -7));
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 11, 24, 13, -9));
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 8, 21, 5, 2));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 31, 34, -14, -4));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 3, 34, 15, -8));
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 7, 16, -2, -5));
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 8, 19, 6, 2));
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 3, 16, 2, -5));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 2, 33, -2, 17));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 2, 33, -1, 17));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 20, 35, -9, -2));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 2, 31, 1, 17));
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 7, 16, -2, -2));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 3, 34, 14, -4));
+
+    // Touch yourself 3
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 7, 16, 0, -1));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 20, 37, -3, -2));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 14, 25, -1, 4));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 25, 34, -9, -8));
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 5, 16, 1, -2));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 18, 25, -1, -3));
+    CHECK_FALSE(unknoter.can_player_shift_edges(1, 28, 35, -8, -6));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 20, 21, -2, -4));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 20, 25, -2, -7));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 36, 13, -3, -5));
+    CHECK_FALSE(unknoter.can_player_shift_edges(1, 24, 33, 3, 4));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 20, 19, 0, 7));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 7, 34, 12, -7));
+    CHECK_FALSE(unknoter.can_player_shift_edges(1, 24, 35, -1, 4));
+    CHECK_FALSE(unknoter.can_player_shift_edges(3, 14, 25, -5, 9));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 3, 34, 9, -4));
+    CHECK_FALSE(unknoter.can_player_shift_edges(2, 12, 1, 1, -5));
+    CHECK_FALSE(unknoter.can_player_shift_edges(1, 24, 31, 4, 3));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 38, 27, 2, -6));
+    CHECK_FALSE(unknoter.can_player_shift_edges(0, 36, 5, 0, -5));
 
     // Touching a different component
     CHECK_FALSE(unknoter.can_player_shift_edges(1, 1, 10, 4, 7));

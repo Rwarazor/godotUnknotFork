@@ -168,6 +168,17 @@ bool UnknoterImpl::can_player_shift_edges(int player, int x, int y, int select_o
       if (get_edge_player(x2, y2) != -1) {
         return false;
       }
+      if (i != 0) {
+        if (is_edge_alt(x, y)) {
+          if (get_edge_player(x2 - sign_select, y2 - sign_perpendicular) == player) {
+            return false;
+          }
+        } else {
+          if (get_edge_player(x2 - sign_perpendicular, y2 - sign_select) == player) {
+            return false;
+          }
+        }
+      }
     }
     i += sign_select;
   } while (i != select_offset + sign_select);
@@ -175,16 +186,27 @@ bool UnknoterImpl::can_player_shift_edges(int player, int x, int y, int select_o
   bool deleting1 = true, deleting2 = true;
   for (int j = sign_perpendicular; j != perpendicular_offset + 2 * sign_perpendicular; j += sign_perpendicular) {
     int x1, y1, x2, y2;
+    int x3, y3, x4, y4;
     if (is_edge_alt(x, y)) {
       x1 = std::min(x, x + 2 * select_offset) - 1;
       x2 = std::max(x, x + 2 * select_offset) + 1;
       y1 = y - sign_perpendicular + 2 * j;
       y2 = y1;
+
+      x3 = x1 + 1;
+      y3 = y + 2 * j;
+      x4 = x2 - 1;
+      y4 = y + 2 * j;
     } else {
       x1 = x - sign_perpendicular + 2 * j;
       x2 = x1;
       y1 = std::min(y, y + 2 * select_offset) - 1;
       y2 = std::max(y, y + 2 * select_offset) + 1;
+
+      x3 = x + 2 * j;
+      y3 = y1 + 1;
+      x4 = x + 2 * j;
+      y4 = y2 - 1;
     }
     if (out_of_bounds(x1, y1) || out_of_bounds(x2, y2)) {
       break;
@@ -198,6 +220,12 @@ bool UnknoterImpl::can_player_shift_edges(int player, int x, int y, int select_o
     } else if (get_edge_player(x1, y1) != -1) {
         return false;
     }
+    if (j != perpendicular_offset + sign_perpendicular &&
+      !deleting1 &&
+      get_edge_player(x3, y3) == player)
+    {
+      return false;
+    }
     if (deleting2) {
       if (get_edge_player(x2, y2) == -1) {
         deleting2 = false;
@@ -206,6 +234,12 @@ bool UnknoterImpl::can_player_shift_edges(int player, int x, int y, int select_o
       }
     } else if (get_edge_player(x2, y2) != -1) {
         return false;
+    }
+    if (j != perpendicular_offset + sign_perpendicular &&
+      !deleting2 &&
+      get_edge_player(x4, y4) == player)
+    {
+      return false;
     }
   }
   return true;
