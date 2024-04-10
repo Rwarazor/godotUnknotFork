@@ -221,6 +221,8 @@ void UnknoterImpl::shift_edges(int x, int y, int select_offset, int perpendicula
   do  {
     int x1 = x + 2 * i * is_edge_alt(x, y);
     int y1 = y + 2 * i * !is_edge_alt(x, y);
+    // clear intersection when removing edge
+    coords_to_player[x1 / 2 * 2][y1 / 2 * 2] = -1;
     coords_to_player[x1][y1] = -1;
     int x2 = x1 + 2 * perpendicular_offset * !is_edge_alt(x, y);
     int y2 = y1 + 2 * perpendicular_offset * is_edge_alt(x, y);
@@ -245,11 +247,15 @@ void UnknoterImpl::shift_edges(int x, int y, int select_offset, int perpendicula
       coords_to_player[x1][y1] = player;
     } else{
       coords_to_player[x1][y1] = -1;
+      // clear intersection when removing edge
+      coords_to_player[x1 / 2 * 2][y1 / 2 * 2] = -1;
     }
     if (coords_to_player[x2][y2] == -1) {
       coords_to_player[x2][y2] = player;
     } else{
       coords_to_player[x2][y2] = -1;
+      // clear intersection when removing edge
+      coords_to_player[x2 / 2 * 2][y2 / 2 * 2] = -1;
     }
   }
 }
