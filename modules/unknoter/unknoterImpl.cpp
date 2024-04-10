@@ -266,21 +266,48 @@ void UnknoterImpl::shift_edges(int x, int y, int select_offset, int perpendicula
     int x2 = x1 + 2 * perpendicular_offset * !is_edge_alt(x, y);
     int y2 = y1 + 2 * perpendicular_offset * is_edge_alt(x, y);
     coords_to_player[x2][y2] = player;
+    if (i != 0) {
+      if (is_edge_alt(x, y)) {
+        int other_player = get_edge_player(x2 - sign_select, y2 - sign_perpendicular);
+        if (other_player != -1) {
+          coords_to_player[x2 - sign_select][y2] = player;
+        }
+      } else {
+        if (get_edge_player(x2 - sign_perpendicular, y2 - sign_select) != -1) {
+          coords_to_player[x2][y2 - sign_select] = player;
+        }
+      }
+    }
     i += sign_select;
   } while (i != select_offset + sign_select);
 
+  bool deleting1 = true, deleting2 = true;
   for (int j = sign_perpendicular; j != perpendicular_offset + sign_perpendicular; j += sign_perpendicular) {
     int x1, y1, x2, y2;
+    int x3, y3, x4, y4;
     if (is_edge_alt(x, y)) {
       x1 = std::min(x, x + 2 * select_offset) - 1;
       x2 = std::max(x, x + 2 * select_offset) + 1;
       y1 = y - sign_perpendicular + 2 * j;
       y2 = y1;
+
+      x3 = x1 + 1;
+      y3 = y + 2 * j;
+      x4 = x2 - 1;
+      y4 = y + 2 * j;
     } else {
       x1 = x - sign_perpendicular + 2 * j;
       x2 = x1;
       y1 = std::min(y, y + 2 * select_offset) - 1;
       y2 = std::max(y, y + 2 * select_offset) + 1;
+
+      x3 = x + 2 * j;
+      y3 = y1 + 1;
+      x4 = x + 2 * j;
+      y4 = y2 - 1;
+    }
+    if (get_edge_player(x1, y1) == -1) {
+      deleting1 = false;
     }
     if (coords_to_player[x1][y1] == -1) {
       coords_to_player[x1][y1] = player;
@@ -289,12 +316,27 @@ void UnknoterImpl::shift_edges(int x, int y, int select_offset, int perpendicula
       // clear intersection when removing edge
       coords_to_player[x1 / 2 * 2][y1 / 2 * 2] = -1;
     }
+    if (j != perpendicular_offset &&
+      !deleting1 &&
+      get_edge_player(x3, y3) != -1)
+    {
+      coords_to_player[x3 - is_edge_alt(x, y)][y3 - !is_edge_alt(x, y)] = player;
+    }
+    if (get_edge_player(x2, y2) == -1) {
+      deleting2 = false;
+    }
     if (coords_to_player[x2][y2] == -1) {
       coords_to_player[x2][y2] = player;
     } else{
       coords_to_player[x2][y2] = -1;
       // clear intersection when removing edge
       coords_to_player[x2 / 2 * 2][y2 / 2 * 2] = -1;
+    }
+    if (j != perpendicular_offset &&
+      !deleting2 &&
+      get_edge_player(x4, y4) != -1)
+    {
+      coords_to_player[x4 + is_edge_alt(x, y)][y4 + !is_edge_alt(x, y)] = player;
     }
   }
 }
