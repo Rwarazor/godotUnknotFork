@@ -11,6 +11,10 @@ class UnknoterImpl {
     {"current_player", 0},
     {"width", 0},
     {"height", 0},
+    {"energy1", 0},
+    {"energy2", 0},
+    {"energy3", 0},
+    {"energy4", 0},
   };
 
 public:

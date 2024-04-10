@@ -372,6 +372,10 @@ Error UnknoterImpl::save(const String &p_path) {
   file->store_8(params_["current_player"]);
   file->store_8(width);
   file->store_8(height);
+  file->store_32(params_["energy1"]);
+  file->store_32(params_["energy2"]);
+  file->store_32(params_["energy3"]);
+  file->store_32(params_["energy4"]);
   for (int x = 0; x <= 2 * width; ++x) {
     for (int y = 0; y <= 2 * height; ++y) {
       file->store_8(coords_to_player[x][y]);
@@ -395,6 +399,10 @@ Error UnknoterImpl::load(const String &p_path) {
     params_["current_player"] = file->get_8();
     int width = params_["width"] = file->get_8();
     int height = params_["height"] = file->get_8();
+    params_["energy1"] = file->get_32();
+    params_["energy2"] = file->get_32();
+    params_["energy3"] = file->get_32();
+    params_["energy4"] = file->get_32();
     coords_to_player.assign(2 * width + 1, std::vector<int>(2 * height + 1, -1));
     for (int x = 0; x <= 2 * width; ++x) {
       for (int y = 0; y <= 2 * height; ++y) {
