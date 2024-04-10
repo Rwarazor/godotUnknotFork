@@ -9,7 +9,10 @@ namespace TestUnknoter {
 TEST_CASE("[Modules][Unknoter] Test UnknoterImpl behavior") {
     UnknoterImpl unknoter;
 
-    unknoter.reset(3, 6, 6);
+    unknoter.set_param("players", 3);
+    unknoter.set_param("width", 6);
+    unknoter.set_param("height", 6);
+    unknoter.reset();
 
     std::vector<std::vector<int>> field = {
         {-1,  0, -1,  0, -1,  0, -1,  0, -1, -1, -1, -1, -1},
@@ -29,9 +32,9 @@ TEST_CASE("[Modules][Unknoter] Test UnknoterImpl behavior") {
 
     unknoter._set_field({field});
 
-    CHECK(unknoter.get_players() == 3);
-    CHECK(unknoter.get_width() == 6);
-    CHECK(unknoter.get_height() == 6);
+    CHECK(unknoter.get_param("players") == 3);
+    CHECK(unknoter.get_param("width") == 6);
+    CHECK(unknoter.get_param("height") == 6);
 
     // Correct moves
     CHECK(unknoter.can_player_shift_edges(1, 3, 10, 0, -2));
@@ -138,7 +141,10 @@ TEST_CASE("[Modules][Unknoter] Test UnknoterImpl behavior") {
 TEST_CASE("[Modules][Unknoter] Test UnknoterImpl behavior big") {
     UnknoterImpl unknoter;
 
-    unknoter.reset(4, 20, 20);
+    unknoter.set_param("players", 4);
+    unknoter.set_param("width", 20);
+    unknoter.set_param("height", 20);
+    unknoter.reset();
 
     std::vector<std::vector<int>> field = {
         {-1, -1, -1,  1, -1,  1, -1,  1, -1,  1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
@@ -186,9 +192,6 @@ TEST_CASE("[Modules][Unknoter] Test UnknoterImpl behavior big") {
 
     unknoter._set_field({field});
 
-    CHECK(unknoter.get_players() == 4);
-    CHECK(unknoter.get_width() == 20);
-    CHECK(unknoter.get_height() == 20);
     // Correct moves
     CHECK(unknoter.can_player_shift_edges(2, 23, 24, 5, 1));
     CHECK(unknoter.can_player_shift_edges(3, 14, 19, 1, -2));

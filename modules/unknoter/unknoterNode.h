@@ -17,13 +17,10 @@ public:
   UnknoterNode();
   ~UnknoterNode();
 
-  void reset(int players, int width, int height);
+  void reset();
 
-  int get_players();
-  void set_current_player(int player);
-  int get_current_player();
-  int get_width();
-  int get_height();
+  int get_param(String key);
+  void set_param(String key, int val);
 
   int get_edge_player(int x, int y);
   int get_upper_vertex_player(int x, int y);

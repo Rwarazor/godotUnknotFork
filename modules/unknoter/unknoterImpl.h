@@ -1,26 +1,27 @@
 #include "unknoterNode.h"
 
+#include <map>
 #include <vector>
 
 class UnknoterImpl {
-  int players;
-  int current_player;
-  int width;
-  int height;
   std::vector<std::vector<int>> coords_to_player;
+  std::map<String, int> params_ = {
+    {"players", 0},
+    {"virtual_players", 0},
+    {"current_player", 0},
+    {"width", 0},
+    {"height", 0},
+  };
 
 public:
-  void reset(int players, int width, int height);
+  void reset();
 
   int get_edge_player(int x, int y);
   int get_upper_vertex_player(int x, int y);
   int get_lower_vertex_player(int x, int y);
 
-  int get_players();
-  void set_current_player(int player);
-  int get_current_player();
-  int get_width();
-  int get_height();
+  int get_param(String key);
+  void set_param(String key, int val);
 
   bool can_player_flip_vertex(int player, int x, int y);
   bool can_player_shift_edges(int player, int x, int y, int select_offset, int perpendicular_offset);

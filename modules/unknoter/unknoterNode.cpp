@@ -1,12 +1,9 @@
 #include "unknoterImpl.h"
 
 void UnknoterNode::_bind_methods(){
-  ClassDB::bind_method(D_METHOD("reset", "players", "width", "height"), &UnknoterNode::reset);
-  ClassDB::bind_method(D_METHOD("get_players"), &UnknoterNode::get_players);
-  ClassDB::bind_method(D_METHOD("set_current_player", "player"), &UnknoterNode::set_current_player);
-  ClassDB::bind_method(D_METHOD("get_current_player"), &UnknoterNode::get_current_player);
-  ClassDB::bind_method(D_METHOD("get_width"), &UnknoterNode::get_width);
-  ClassDB::bind_method(D_METHOD("get_height"), &UnknoterNode::get_height);
+  ClassDB::bind_method(D_METHOD("reset"), &UnknoterNode::reset);
+  ClassDB::bind_method(D_METHOD("get_param", "key"), &UnknoterNode::get_param);
+  ClassDB::bind_method(D_METHOD("set_param", "key", "val"), &UnknoterNode::set_param);
   ClassDB::bind_method(D_METHOD("get_edge_player", "x", "y"), &UnknoterNode::get_edge_player);
   ClassDB::bind_method(D_METHOD("get_upper_vertex_player", "x", "y"), &UnknoterNode::get_upper_vertex_player);
   ClassDB::bind_method(D_METHOD("get_lower_vertex_player", "x", "y"), &UnknoterNode::get_lower_vertex_player);
@@ -24,28 +21,16 @@ UnknoterNode::UnknoterNode()
 
 UnknoterNode::~UnknoterNode() = default;
 
-void UnknoterNode::reset(int players, int width, int height) {
-  impl_->reset(players, width, height);
+void UnknoterNode::reset() {
+  impl_->reset();
 }
 
-int UnknoterNode::get_players() {
-  return impl_->get_players();
+int UnknoterNode::get_param(String key) {
+  return impl_->get_param(key);
 }
 
-void UnknoterNode::set_current_player(int player) {
-  impl_->set_current_player(player);
-}
-
-int UnknoterNode::get_current_player() {
-  return impl_->get_current_player();
-}
-
-int UnknoterNode::get_width() {
-  return impl_->get_width();
-}
-
-int UnknoterNode::get_height() {
-  return impl_->get_height();
+void UnknoterNode::set_param(String key, int val) {
+  return impl_->set_param(key, val);
 }
 
 int UnknoterNode::get_edge_player(int x, int y) {
