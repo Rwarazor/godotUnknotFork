@@ -265,6 +265,19 @@ void UnknoterImpl::shift_edges(int x, int y, int select_offset, int perpendicula
   }
 }
 
+bool UnknoterImpl::has_player_won(int player) {
+  int width = params_["width"];
+  int height = params_["height"];
+  for (int x = 0; x <= 2 * width; x += 2) {
+    for (int y = 0; y <= 2 * height; y += 2) {
+      if (get_lower_vertex_player(x, y) == player || get_upper_vertex_player(x, y) == player) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
 const int SCHEMA = 1;
 Error UnknoterImpl::save(const String &p_path) {
   int width = params_["width"];

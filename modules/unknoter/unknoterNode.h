@@ -32,6 +32,8 @@ public:
   void flip_vertex(int x, int y);
   void shift_edges(int x, int y, int select_offset, int perpendicular_offset);
 
+  bool has_player_won(int player);
+
   Error save(const String &path);
   Error load(const String &path);
 };

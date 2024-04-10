@@ -11,6 +11,7 @@ void UnknoterNode::_bind_methods(){
   ClassDB::bind_method(D_METHOD("can_player_shift_edges", "player", "x", "y", "select_offset", "perpendicular_offset"), &UnknoterNode::can_player_shift_edges);
   ClassDB::bind_method(D_METHOD("flip_vertex", "x", "y"), &UnknoterNode::flip_vertex);
   ClassDB::bind_method(D_METHOD("shift_edges", "x", "y", "select_offset", "perpendicular_offset"), &UnknoterNode::shift_edges);
+  ClassDB::bind_method(D_METHOD("has_player_won", "player"), &UnknoterNode::has_player_won);
   ClassDB::bind_method(D_METHOD("save", "path"), &UnknoterNode::save);
   ClassDB::bind_method(D_METHOD("load", "path"), &UnknoterNode::load);
 }
@@ -60,6 +61,10 @@ void UnknoterNode::flip_vertex(int x, int y) {
 void UnknoterNode::shift_edges(int x, int y, int select_offset, int perpendicular_offset) {
   impl_->shift_edges(x, y, select_offset, perpendicular_offset);
 }
+
+bool UnknoterNode::has_player_won(int player) {
+  return impl_->has_player_won(player);
+};
 
 Error UnknoterNode::save(const String &path) {
   return impl_->save(path);
